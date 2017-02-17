@@ -1,13 +1,38 @@
-/// <reference path="../node_modules/@types/backbone/index.d.ts" />
+import * as $ from 'jquery';
 import * as Backbone from 'backbone';
-import { Heroes } from "./hero.ts"
+import { Heroes } from './hero.ts';
+import { HeroesView } from './hero_view.ts';
 
-class HeroView extends Backbone.View<Backbone.Model> {
-  tagName = 'li';
+class AppView extends Backbone.View<Backbone.Model> {
+  constructor() {
+    super();
+    this.render();
+  }
+
+  render(): Backbone.View<Backbone.Model> {
+    let heroesView = new HeroesView({
+      collection: new Heroes()
+    });
+    this.$el.append(heroesView.el);
+    return this;
+  }
 }
 
-class HeroesView extends Backbone.View<Backbone.Model> {
-  tagName = 'ul';
+class AppRouter extends Backbone.Router {
+  routes = {
+    '': 'showHomeScene'
+  };
+
+  constructor() {
+    super();
+    (<any>this)._bindRoutes(); // NOTE: Bind routes with corresponding callbacks
+  }
+
+  showHomeScene(): void {
+    // console.log('showHomeScene');
+    $(document.body).append((new AppView()).el);
+  }
 }
 
-let heroes = new Heroes(); 
+const appRouter = new AppRouter();
+Backbone.history.start();

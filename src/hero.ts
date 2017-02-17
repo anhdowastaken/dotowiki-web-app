@@ -152,18 +152,7 @@ class Hero extends Backbone.Model {
 class Heroes extends Backbone.Collection<Backbone.Model> {
   model = Hero;
   url = 'https://dotowiki-service.herokuapp.com/heroes';
-
-  constructor() {
-    super();
-    super.fetch({
-      success: function(collection, response, options) {
-        console.log(collection.models[0]);
-        // console.log(response);
-        // console.log(options);
-      }
-    });
-  }
 }
 
-export default { Hero };
+export { Hero };
 export { Heroes };

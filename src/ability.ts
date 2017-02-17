@@ -62,9 +62,8 @@ class Ability extends Backbone.Model {
 }
 
 class Abilities extends Backbone.Collection<Backbone.Model> {
-  // Reference to Ability model
   model = Ability;
 }
 
-export default { Ability };
+export { Ability };
 export { Abilities };
