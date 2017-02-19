@@ -86,7 +86,7 @@ class Item extends Backbone.Model {
 
 class Items extends Backbone.Collection<Backbone.Model> {
   model = Item;
-  url = 'https://dotowiki-service.herokuapp.com/items';
+  url = 'https://dotowiki-service.herokuapp.com/getItemList';
 }
 
 export { Item };

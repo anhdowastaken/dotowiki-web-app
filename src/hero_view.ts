@@ -17,7 +17,7 @@ class HeroView extends Backbone.View<Backbone.Model> {
   }
 
   render(): Backbone.View<Backbone.Model> {
-    let template = _.template('<img src="<%= icon_url %>"/>');
+    let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/>');
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -30,7 +30,7 @@ class HeroView extends Backbone.View<Backbone.Model> {
 class HeroesView extends Backbone.View<Backbone.Model> {
   constructor(options: any = {}) {
     options.tagName = 'ul';
-    options.className = 'class-heroes';
+    options.className = 'class-heroes list-unstyled';
     super(options);
     let self = this;
     // this.collection.bind('reset', _.bind(this.render, this));

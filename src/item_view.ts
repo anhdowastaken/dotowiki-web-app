@@ -18,7 +18,7 @@ class ItemView extends Backbone.View<Item> {
 
   render(): Backbone.View<Item> {
     if (this.model.cost > 0 && this.model.isRecipe === false && this.model.name.search('item_river_painter') === -1) {
-      let template = _.template('<img src="<%= icon_url %>"/>');
+      let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/>');
       this.$el.html(template(this.model.toJSON()));
     }
     return this;
@@ -32,7 +32,7 @@ class ItemView extends Backbone.View<Item> {
 class ItemsView extends Backbone.View<Backbone.Model> {
   constructor(options: any = {}) {
     options.tagName = 'ul';
-    options.className = 'class-items';
+    options.className = 'class-items list-unstyled';
     super(options);
     let self = this;
     this.collection.fetch({
