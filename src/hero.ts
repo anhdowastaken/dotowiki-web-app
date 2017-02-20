@@ -1,5 +1,6 @@
 /// <reference path="../node_modules/@types/backbone/index.d.ts" />
 import * as Backbone from 'backbone';
+import { Ability } from "./ability.ts";
 import { Abilities } from "./ability.ts";
 
 // Hero model
@@ -13,8 +14,9 @@ class Hero extends Backbone.Model {
   set localized_name(value: string) { super.set('localized_name', value); }
   get localized_name(): string { return super.get('localized_name'); }
 
-  set abilities(value: Abilities) { super.set('abilities', value); }
-  get abilities(): Abilities { return super.get('abilities'); }
+  public abilities: Abilities;
+  // set abilities(value: Abilities) { super.set('abilities', value); }
+  // get abilities(): Abilities { return super.get('abilities'); }
 
   set icon_url(value: string) { super.set("icon_url", value); }
   get icon_url(): string { return super.get("icon_url"); }
@@ -103,50 +105,72 @@ class Hero extends Backbone.Model {
   set lore(value: string) { super.set("lore", value); }
   get lore(): string { return super.get("lore"); }
 
-  constructor(jsonData?: any) {
-    super();
-    jsonData.name ? this.name = jsonData.name : this.name = "";
-    jsonData.short_name ? this.short_name = jsonData.short_name : this.short_name = "";
-    jsonData.localized_name ? this.localized_name = jsonData.localized_name : this.localized_name = "";
-    jsonData.icon_url ? this.icon_url = jsonData.icon_url : this.icon_url = "";
-    jsonData.portrait_url ? this.portrait_url = jsonData.portrait_url : this.portrait_url = "";
+  // constructor(jsonData?: any) {
+  //   super();
+  //   jsonData.name ? this.name = jsonData.name : this.name = "";
+  //   jsonData.short_name ? this.short_name = jsonData.short_name : this.short_name = "";
+  //   jsonData.localized_name ? this.localized_name = jsonData.localized_name : this.localized_name = "";
+  //   jsonData.icon_url ? this.icon_url = jsonData.icon_url : this.icon_url = "";
+  //   jsonData.portrait_url ? this.portrait_url = jsonData.portrait_url : this.portrait_url = "";
+  //
+  //   jsonData.armorPhysical ? this.armorPhysical = jsonData.armorPhysical : this.armorPhysical = -1;
+  //   jsonData.magicalResistance ? this.magicalResistance = jsonData.magicalResistance : this.magicalResistance = 25;
+  //   jsonData.attackDamageMin ? this.attackDamageMin = jsonData.attackDamageMin : this.attackDamageMin = 1;
+  //   jsonData.attackDamageMax ? this.attackDamageMax = jsonData.attackDamageMax : this.attackDamageMax = 1;
+  //   jsonData.attackRate ? this.attackRate = jsonData.attackRate : this.attackRate = 1.7;
+  //   jsonData.attackAnimationPoint ? this.attackAnimationPoint = jsonData.attackAnimationPoint : this.attackAnimationPoint = 0.75;
+  //   jsonData.attackAcquisitionRange ? this.attackAcquisitionRange = jsonData.attackAcquisitionRange : this.attackAcquisitionRange = 800;
+  //   jsonData.attackRange ? this.attackRange = jsonData.attackRange : this.attackRange = 600;
+  //   jsonData.attributePrimary ? this.attributePrimary = jsonData.attributePrimary : this.attributePrimary = "DOTA_ATTRIBUTE_STRENGTH";
+  //   jsonData.attributeBaseStrength ? this.attributeBaseStrength = jsonData.attributeBaseStrength : this.attributeBaseStrength = 0;
+  //   jsonData.attributeStrengthGain ? this.attributeStrengthGain = jsonData.attributeStrengthGain : this.attributeStrengthGain = 0;
+  //   jsonData.attributeBaseIntelligence ? this.attributeBaseIntelligence = jsonData.attributeBaseIntelligence : this.attributeBaseIntelligence = 0;
+  //   jsonData.attributeIntelligenceGain ? this.attributeIntelligenceGain = jsonData.attributeIntelligenceGain : this.attributeIntelligenceGain = 0;
+  //   jsonData.attributeBaseAgility ? this.attributeBaseAgility = jsonData.attributeBaseAgility : this.attributeBaseAgility = 0;
+  //   jsonData.attributeAgilityGain ? this.attributeAgilityGain = jsonData.attributeAgilityGain : this.attributeAgilityGain = 0;
+  //   jsonData.movementSpeed ? this.movementSpeed = jsonData.movementSpeed : this.movementSpeed = 300;
+  //   jsonData.movementTurnRate ? this.movementTurnRate = jsonData.movementTurnRate : this.movementTurnRate = 0.500000;
+  //   jsonData.statusHealth ? this.statusHealth = jsonData.statusHeal : this.statusHealth = 200;
+  //   jsonData.statusHealthRegen ? this.statusHealthRegen = jsonData.statusHealthRegen : this.statusHealthRegen = 0.250000;
+  //   jsonData.statusMana ? this.statusMana = jsonData.statusMana : this.statusMana = 50;
+  //   jsonData.statusManaRegen ? this.statusManaRegen = jsonData.statusManaRegen : this.statusManaRegen = 0.010000;
+  //   jsonData.visionDaytimeRange ? this.visionDaytimeRange = jsonData.visionDaytimeRange : this.visionDaytimeRange = 1800;
+  //   jsonData.visionNighttimeRange ? this.visionNighttimeRange = jsonData.visionNighttimeRange : this.visionNighttimeRange = 800;
+  //
+  //   // Abilities
+  //   this.abilities = new Abilities();
+  //   if (jsonData.abilities && jsonData.abilities.length > 0) {
+  //     this.abilities.reset(jsonData.abilities);
+  //   }
+  //   // this.abilities = new Abilities();
+  //   // if (jsonData.abilities && jsonData.abilities.length > 0) {
+  //   //   for (let abilityJson of jsonData.abilities) {
+  //   //     let ability = new Ability(abilityJson);
+  //   //     this.abilities.push(ability);
+  //   //   }
+  //   // }
+  //
+  //   // Others
+  //   jsonData.role ? this.role = jsonData.role : this.role = "";
+  //   jsonData.team ? this.team = jsonData.team : this.team = "Good";
+  //   jsonData.legs ? this.legs = jsonData.legs : this.legs = 2;
+  //   jsonData.lore ? this.lore = jsonData.lore : this.lore = "";
+  // }
 
-    jsonData.armorPhysical ? this.armorPhysical = jsonData.armorPhysical : this.armorPhysical = -1;
-    jsonData.magicalResistance ? this.magicalResistance = jsonData.magicalResistance : this.magicalResistance = 25;
-    jsonData.attackDamageMin ? this.attackDamageMin = jsonData.attackDamageMin : this.attackDamageMin = 1;
-    jsonData.attackDamageMax ? this.attackDamageMax = jsonData.attackDamageMax : this.attackDamageMax = 1;
-    jsonData.attackRate ? this.attackRate = jsonData.attackRate : this.attackRate = 1.7;
-    jsonData.attackAnimationPoint ? this.attackAnimationPoint = jsonData.attackAnimationPoint : this.attackAnimationPoint = 0.75;
-    jsonData.attackAcquisitionRange ? this.attackAcquisitionRange = jsonData.attackAcquisitionRange : this.attackAcquisitionRange = 800;
-    jsonData.attackRange ? this.attackRange = jsonData.attackRange : this.attackRange = 600;
-    jsonData.attributePrimary ? this.attributePrimary = jsonData.attributePrimary : this.attributePrimary = "DOTA_ATTRIBUTE_STRENGTH";
-    jsonData.attributeBaseStrength ? this.attributeBaseStrength = jsonData.attributeBaseStrength : this.attributeBaseStrength = 0;
-    jsonData.attributeStrengthGain ? this.attributeStrengthGain = jsonData.attributeStrengthGain : this.attributeStrengthGain = 0;
-    jsonData.attributeBaseIntelligence ? this.attributeBaseIntelligence = jsonData.attributeBaseIntelligence : this.attributeBaseIntelligence = 0;
-    jsonData.attributeIntelligenceGain ? this.attributeIntelligenceGain = jsonData.attributeIntelligenceGain : this.attributeIntelligenceGain = 0;
-    jsonData.attributeBaseAgility ? this.attributeBaseAgility = jsonData.attributeBaseAgility : this.attributeBaseAgility = 0;
-    jsonData.attributeAgilityGain ? this.attributeAgilityGain = jsonData.attributeAgilityGain : this.attributeAgilityGain = 0;
-    jsonData.movementSpeed ? this.movementSpeed = jsonData.movementSpeed : this.movementSpeed = 300;
-    jsonData.movementTurnRate ? this.movementTurnRate = jsonData.movementTurnRate : this.movementTurnRate = 0.500000;
-    jsonData.statusHealth ? this.statusHealth = jsonData.statusHeal : this.statusHealth = 200;
-    jsonData.statusHealthRegen ? this.statusHealthRegen = jsonData.statusHealthRegen : this.statusHealthRegen = 0.250000;
-    jsonData.statusMana ? this.statusMana = jsonData.statusMana : this.statusMana = 50;
-    jsonData.statusManaRegen ? this.statusManaRegen = jsonData.statusManaRegen : this.statusManaRegen = 0.010000;
-    jsonData.visionDaytimeRange ? this.visionDaytimeRange = jsonData.visionDaytimeRange : this.visionDaytimeRange = 1800;
-    jsonData.visionNighttimeRange ? this.visionNighttimeRange = jsonData.visionNighttimeRange : this.visionNighttimeRange = 800;
-
-    // Abilities
+  parse(response: any, options?: any): any {
+    // console.log(response);
     this.abilities = new Abilities();
-    if (jsonData.abilities && jsonData.abilities.length > 0) {
-      this.abilities.reset(jsonData.abilities);
+    if (response.abilities && response.abilities.length > 0) {
+      this.abilities.reset(response.abilities);
+      // for (let object of response.abilities) {
+      //   let ability = new Ability(object);
+      //   this.abilities.push(ability);
+      // }
     }
-
-    // Others
-    jsonData.role ? this.role = jsonData.role : this.role = "";
-    jsonData.team ? this.team = jsonData.team : this.team = "Good";
-    jsonData.legs ? this.legs = jsonData.legs : this.legs = 2;
-    jsonData.lore ? this.lore = jsonData.lore : this.lore = "";
+    return response;
   }
+
+  url = 'https://dotowiki-service.herokuapp.com/getHero';
 }
 
 class Heroes extends Backbone.Collection<Backbone.Model> {

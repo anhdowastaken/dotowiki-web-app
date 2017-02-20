@@ -59,6 +59,8 @@ class Ability extends Backbone.Model {
     jsonData.notes ? this.notes = jsonData.notes : this.notes = "";
     jsonData.lore ? this.lore = jsonData.lore : this.lore = "";
   }
+
+  url = 'https://dotowiki-service.herokuapp.com/getAbility';
 }
 
 class Abilities extends Backbone.Collection<Backbone.Model> {

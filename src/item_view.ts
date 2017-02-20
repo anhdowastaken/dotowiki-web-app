@@ -5,6 +5,23 @@ import * as Backbone from 'backbone';
 import { Item } from './item.ts';
 import { Items } from './item.ts';
 
+class ItemDetailView extends Backbone.View<Item> {
+  constructor(options: any = {}) {
+    options.tagName = 'div';
+    super(options);
+  }
+
+  initialize() {
+    this.render();
+  }
+
+  render(): Backbone.View<Item> {
+    let template = _.template('<div><%= localized_name %></div><img src="<%= portrait_url %>"/>');
+    this.$el.html(template(this.model.toJSON()));
+    return this;
+  }
+}
+
 class ItemView extends Backbone.View<Item> {
   constructor(options: any = {}) {
     options.tagName = 'li';
@@ -25,7 +42,18 @@ class ItemView extends Backbone.View<Item> {
   }
 
   showAlert(): void {
-    alert(this.model.get('localized_name'));
+    let self = this;
+     this.model.fetch({
+      data: $.param({
+        short_name: this.model.short_name
+      }),
+      success: function(model, response, options) {
+        let itemDetailView = new ItemDetailView({
+          model: model
+        });
+        self.$el.parent().parent().siblings('#col-detail').html(itemDetailView.el);
+      }
+    });
   }
 }
 

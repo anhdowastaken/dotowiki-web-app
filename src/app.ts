@@ -8,8 +8,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 class AppView extends Backbone.View<Backbone.Model> {
-  constructor() {
-    super();
+  constructor(options: any = {}) {
+    options.el = 'div#container';
+    super(options);
+  }
+
+  initialize() {
     this.render();
   }
 
@@ -20,8 +24,9 @@ class AppView extends Backbone.View<Backbone.Model> {
     let itemsView = new ItemsView({
       collection: new Items()
     });
-    this.$el.append(heroesView.el);
-    this.$el.append(itemsView.el);
+    this.$('#col-heroes').append(heroesView.el);
+    this.$('#col-items').append(itemsView.el);
+
     return this;
   }
 }
@@ -38,8 +43,9 @@ class AppRouter extends Backbone.Router {
   }
 
   showMainScene(): void {
-    // console.log('showHomeScene');
-    $(document.body).append((new AppView()).el);
+    $(document).ready(function() {
+      new AppView();
+    });
   }
 }
 

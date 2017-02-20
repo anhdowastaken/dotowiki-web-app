@@ -82,6 +82,8 @@ class Item extends Backbone.Model {
       this.components.reset(jsonData.components);
     }
   }
+
+  url = 'https://dotowiki-service.herokuapp.com/getItem';
 }
 
 class Items extends Backbone.Collection<Backbone.Model> {

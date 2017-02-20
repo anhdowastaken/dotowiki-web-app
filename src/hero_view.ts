@@ -4,8 +4,34 @@ import * as _ from 'underscore';
 import * as Backbone from 'backbone';
 import { Hero } from './hero.ts';
 import { Heroes } from './hero.ts';
+import { AbilitiesView } from './ability_view.ts';
 
-class HeroView extends Backbone.View<Backbone.Model> {
+class HeroDetailView extends Backbone.View<Hero> {
+  constructor(options: any = {}) {
+    options.tagName = 'div';
+    super(options);
+  }
+
+  initialize() {
+    this.render();
+  }
+
+  render(): Backbone.View<Hero> {
+    let templateHtml = '<div><%= localized_name %></div>'
+    + '<div><img src="<%= portrait_url %>"/></div>'
+    + '<div class="hero-abilities"></div>';
+    let template = _.template(templateHtml);
+    this.$el.html(template(this.model.toJSON()));
+    let abilitiesView = new AbilitiesView({
+      collection: this.model.abilities
+    });
+    // console.log(abilitiesView.el);
+    this.$('div.hero-abilities').html(abilitiesView.el);
+    return this;
+  }
+}
+
+class HeroView extends Backbone.View<Hero> {
   constructor(options: any = {}) {
     options.tagName = 'li';
     options.className = 'class-hero';
@@ -16,14 +42,26 @@ class HeroView extends Backbone.View<Backbone.Model> {
     this.render();
   }
 
-  render(): Backbone.View<Backbone.Model> {
+  render(): Backbone.View<Hero> {
     let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/>');
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
 
   showAlert(): void {
-    alert(this.model.get('localized_name'));
+    let self = this;
+    this.model.fetch({
+      data: $.param({
+        short_name: this.model.short_name
+      }),
+      success: function(model, response, options) {
+        // console.log(model);
+        let heroDetailView = new HeroDetailView({
+          model: model
+        });
+        self.$el.parent().parent().siblings('#col-detail').html(heroDetailView.el);
+      }
+    });
   }
 }
 
