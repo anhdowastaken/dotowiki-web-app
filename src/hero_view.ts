@@ -23,9 +23,8 @@ class HeroDetailView extends Backbone.View<Hero> {
     let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     let abilitiesView = new AbilitiesView({
-      collection: this.model.abilities
+      collection: this.model.getAbilities()
     });
-    // console.log(abilitiesView.el);
     this.$('div.hero-abilities').html(abilitiesView.el);
     return this;
   }
@@ -55,7 +54,6 @@ class HeroView extends Backbone.View<Hero> {
         short_name: this.model.short_name
       }),
       success: function(model, response, options) {
-        // console.log(model);
         let heroDetailView = new HeroDetailView({
           model: model
         });
@@ -71,10 +69,8 @@ class HeroesView extends Backbone.View<Backbone.Model> {
     options.className = 'class-heroes list-unstyled';
     super(options);
     let self = this;
-    // this.collection.bind('reset', _.bind(this.render, this));
     this.collection.fetch({
       success: function(collection, response, options) {
-        // console.log(collection);
         self.render();
       }
     });
@@ -88,7 +84,6 @@ class HeroesView extends Backbone.View<Backbone.Model> {
       });
       self.$el.append(heroView.el);
     });
-    // console.log(this.el);
     return this;
   }
 }

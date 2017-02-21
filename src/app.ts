@@ -26,7 +26,7 @@ class AppView extends Backbone.View<Backbone.Model> {
     });
     this.$('#col-heroes').append(heroesView.el);
     this.$('#col-items').append(itemsView.el);
-
+    // console.log(heroesView.collection);
     return this;
   }
 }

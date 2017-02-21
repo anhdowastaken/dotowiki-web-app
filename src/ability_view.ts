@@ -16,8 +16,9 @@ class AbilityDetailView extends Backbone.View<Ability> {
   }
 
   render(): Backbone.View<Ability> {
-    let templateHtml = '<div><%= full_name %></div>'
-    + '<div><img src="<%= portrait_url %>"/></div>';
+    let templateHtml: string = '<div><%= full_name %></div>';
+    templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
+    templateHtml += '<div><%= description %></div>';
     let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     return this;
@@ -37,7 +38,6 @@ class AbilityView extends Backbone.View<Ability> {
 
   render(): Backbone.View<Ability> {
     let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/><span><%= full_name %></span>');
-    // console.log(this.model);
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -46,10 +46,9 @@ class AbilityView extends Backbone.View<Ability> {
     let self = this;
     this.model.fetch({
       data: $.param({
-        id: this.model.ability_id
+        id: this.model.id
       }),
       success: function(model, response, options) {
-        // console.log(model);
         let abilityDetailView = new AbilityDetailView({
           model: model
         });
@@ -64,12 +63,6 @@ class AbilitiesView extends Backbone.View<Backbone.Model> {
     options.tagName = 'ul';
     options.className = 'class-ability list-unstyled';
     super(options);
-    // let self = this;
-    // this.collection.fetch({
-      // success: function(collection, response, options) {
-        // self.render();
-    //   }
-    // });
     this.render();
   }
 

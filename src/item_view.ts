@@ -16,7 +16,10 @@ class ItemDetailView extends Backbone.View<Item> {
   }
 
   render(): Backbone.View<Item> {
-    let template = _.template('<div><%= localized_name %></div><img src="<%= portrait_url %>"/>');
+    let templateHtml: string = '<div><%= localized_name %></div>';
+    templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
+    templateHtml += '<div>Cost: <%= cost %> gold</div>';
+    let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -43,7 +46,7 @@ class ItemView extends Backbone.View<Item> {
 
   showAlert(): void {
     let self = this;
-     this.model.fetch({
+    this.model.fetch({
       data: $.param({
         short_name: this.model.short_name
       }),
