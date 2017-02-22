@@ -6,10 +6,13 @@ import { Items } from './item.ts';
 import { ItemsView } from './item_view.ts';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+// import 'https://rawgit.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js';
+import 'expose?$!jquery';
+import 'expose?jQuery!jquery';
 
 class AppView extends Backbone.View<Backbone.Model> {
   constructor(options: any = {}) {
-    options.el = 'div#container';
+    options.el = 'div.container';
     super(options);
   }
 
@@ -24,8 +27,9 @@ class AppView extends Backbone.View<Backbone.Model> {
     let itemsView = new ItemsView({
       collection: new Items()
     });
-    this.$('#col-heroes').append(heroesView.el);
-    this.$('#col-items').append(itemsView.el);
+    this.$el.find('div.panel.panel-default').append(heroesView.el);
+    // this.$('#col-heroes').append(heroesView.el);
+    // this.$('#col-items').append(itemsView.el);
     // console.log(heroesView.collection);
     return this;
   }

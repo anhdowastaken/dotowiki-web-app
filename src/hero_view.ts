@@ -33,7 +33,7 @@ class HeroDetailView extends Backbone.View<Hero> {
 class HeroView extends Backbone.View<Hero> {
   constructor(options: any = {}) {
     options.tagName = 'li';
-    options.className = 'class-hero';
+    options.className = 'list-group-item';
     options.events = {
       'click': 'showAlert'
     };
@@ -42,7 +42,14 @@ class HeroView extends Backbone.View<Hero> {
   }
 
   render(): Backbone.View<Hero> {
-    let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/>');
+    let templateHtml: string = '<div class="col-xs-12 col-sm-3">';
+    templateHtml += '<img src="<%= icon_url %>" alt="<%= localized_name %>" class="img-responsive img-rounded" />';
+    templateHtml += '</div>';
+    templateHtml += '<div class="col-xs-12 col-sm-9">';
+    templateHtml += '<span class="name"><%= localized_name %></span>';
+    templateHtml += '</div>';
+    templateHtml += '<div class="clearfix"></div>';
+    let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -57,7 +64,8 @@ class HeroView extends Backbone.View<Hero> {
         let heroDetailView = new HeroDetailView({
           model: model
         });
-        self.$el.parent().parent().siblings('#col-detail').html(heroDetailView.el);
+        // self.$el.parent().parent().siblings('#col-detail').html(heroDetailView.el);
+        alert(JSON.stringify(model.toJSON()));
       }
     });
   }
@@ -66,7 +74,8 @@ class HeroView extends Backbone.View<Hero> {
 class HeroesView extends Backbone.View<Backbone.Model> {
   constructor(options: any = {}) {
     options.tagName = 'ul';
-    options.className = 'class-heroes list-unstyled';
+    options.className = 'list-group';
+    options.id = 'contact-list';
     super(options);
     let self = this;
     this.collection.fetch({
