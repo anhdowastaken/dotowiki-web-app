@@ -8,7 +8,11 @@ import { AbilitiesView } from './ability_view.ts';
 
 class HeroDetailView extends Backbone.View<Hero> {
   constructor(options: any = {}) {
-    options.tagName = 'div';
+    options.tagName = 'li';
+    options.className = 'list-group-item hero-detail';
+    options.events = {
+      'click button.btn-close': 'close'
+    };
     super(options);
   }
 
@@ -17,9 +21,12 @@ class HeroDetailView extends Backbone.View<Hero> {
   }
 
   render(): Backbone.View<Hero> {
-    let templateHtml = '<div><%= localized_name %></div>'
-    + '<div><img src="<%= portrait_url %>"/></div>'
-    + '<div class="hero-abilities"></div>';
+    let templateHtml = '<div>';
+    templateHtml += '<button type="button" class="btn btn-default btn-close">Close</button>';
+    templateHtml += '<div><%= localized_name %></div>';
+    templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
+    templateHtml += '<div class="hero-abilities"></div>';
+    templateHtml += '</div>';
     let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     let abilitiesView = new AbilitiesView({
@@ -28,6 +35,10 @@ class HeroDetailView extends Backbone.View<Hero> {
     this.$('div.hero-abilities').html(abilitiesView.el);
     return this;
   }
+
+  close(): void {
+    this.$el.remove();
+  }
 }
 
 class HeroView extends Backbone.View<Hero> {
@@ -35,7 +46,7 @@ class HeroView extends Backbone.View<Hero> {
     options.tagName = 'li';
     options.className = 'list-group-item';
     options.events = {
-      'click': 'showAlert'
+      'click': 'showHeroDetail'
     };
     super(options);
     this.render();
@@ -54,7 +65,7 @@ class HeroView extends Backbone.View<Hero> {
     return this;
   }
 
-  showAlert(): void {
+  showHeroDetail(): void {
     let self = this;
     this.model.fetch({
       data: $.param({
@@ -64,8 +75,9 @@ class HeroView extends Backbone.View<Hero> {
         let heroDetailView = new HeroDetailView({
           model: model
         });
+        self.$el.parent().find('li.list-group-item.hero-detail').remove();
+        self.$el.parent().prepend(heroDetailView.el);
         // self.$el.parent().parent().siblings('#col-detail').html(heroDetailView.el);
-        alert(JSON.stringify(model.toJSON()));
       }
     });
   }

@@ -8,6 +8,9 @@ import { Abilities } from './ability.ts';
 class AbilityDetailView extends Backbone.View<Ability> {
   constructor(options: any = {}) {
     options.tagName = 'div';
+    options.events = {
+      'click button.btn-close': 'close'
+    };
     super(options);
   }
 
@@ -16,12 +19,17 @@ class AbilityDetailView extends Backbone.View<Ability> {
   }
 
   render(): Backbone.View<Ability> {
-    let templateHtml: string = '<div><%= full_name %></div>';
+    let templateHtml: string = '<button type="button" class="btn btn-default btn-close">Close</button>';
+    templateHtml += '<div><%= full_name %></div>';
     templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
     templateHtml += '<div><%= description %></div>';
     let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     return this;
+  }
+
+  close(): void {
+    this.$el.parent().parent().remove();
   }
 }
 
@@ -30,7 +38,7 @@ class AbilityView extends Backbone.View<Ability> {
     options.tagName = 'li';
     options.className = 'class-ability';
     options.events = {
-      'click': 'showAlert'
+      'click': 'showAbilityDetail'
     };
     super(options);
     this.render();
@@ -42,7 +50,7 @@ class AbilityView extends Backbone.View<Ability> {
     return this;
   }
 
-  showAlert(): void {
+  showAbilityDetail(): void {
     let self = this;
     this.model.fetch({
       data: $.param({

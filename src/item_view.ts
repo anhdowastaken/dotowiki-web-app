@@ -30,7 +30,7 @@ class ItemView extends Backbone.View<Item> {
     options.tagName = 'li';
     options.className = 'class-item';
     options.events = {
-      'click': 'showAlert'
+      'click': 'showItemDetail'
     };
     super(options);
     this.render();
@@ -44,7 +44,7 @@ class ItemView extends Backbone.View<Item> {
     return this;
   }
 
-  showAlert(): void {
+  showItemDetail(): void {
     let self = this;
     this.model.fetch({
       data: $.param({
