@@ -8,6 +8,10 @@ import { Items } from './item.ts';
 class ItemDetailView extends Backbone.View<Item> {
   constructor(options: any = {}) {
     options.tagName = 'div';
+    options.id = 'item-detail';
+    options.events = {
+      'click button.btn-close': 'close'
+    };
     super(options);
   }
 
@@ -16,19 +20,31 @@ class ItemDetailView extends Backbone.View<Item> {
   }
 
   render(): Backbone.View<Item> {
-    let templateHtml: string = '<div><%= localized_name %></div>';
+    // Prepare template
+    let templateHtml: string = '<button type="button" class="btn btn-default btn-close">Close</button>';
+    templateHtml += '<div><%= localized_name %></div>';
     templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
     templateHtml += '<div>Cost: <%= cost %> gold</div>';
+    // Generate template by using underscore
     let template = _.template(templateHtml);
     this.$el.html(template(this.model.toJSON()));
     return this;
+  }
+
+  close(): void {
+    // Remove view of current selected item
+    this.$el.remove();
+    // Hide 'detail' panel
+    $('div#detail-panel.panel.panel-default').hide();
+    // Show 'main' panel
+    $('div#main-panel.panel.panel-default').show();
   }
 }
 
 class ItemView extends Backbone.View<Item> {
   constructor(options: any = {}) {
     options.tagName = 'li';
-    options.className = 'class-item';
+    options.className = 'list-group-item';
     options.events = {
       'click': 'showItemDetail'
     };
@@ -38,7 +54,16 @@ class ItemView extends Backbone.View<Item> {
 
   render(): Backbone.View<Item> {
     if (this.model.cost > 0 && this.model.isRecipe === false && this.model.name.search('item_river_painter') === -1) {
-      let template = _.template('<img class="img-rounded" src="<%= icon_url %>"/>');
+      // Pepare template
+      let templateHtml: string = '<div class="col-xs-12 col-sm-3">';
+      templateHtml += '<img src="<%= icon_url %>" alt="<%= localized_name %>" class="img-responsive img-rounded" />';
+      templateHtml += '</div>';
+      templateHtml += '<div class="col-xs-12 col-sm-9">';
+      templateHtml += '<span class="name"><%= localized_name %></span>';
+      templateHtml += '</div>';
+      templateHtml += '<div class="clearfix"></div>';
+      // Generate template by using underscore
+      let template = _.template(templateHtml);
       this.$el.html(template(this.model.toJSON()));
     }
     return this;
@@ -54,7 +79,11 @@ class ItemView extends Backbone.View<Item> {
         let itemDetailView = new ItemDetailView({
           model: model
         });
-        self.$el.parent().parent().siblings('#col-detail').html(itemDetailView.el);
+        // self.$el.parent().parent().siblings('#col-detail').html(itemDetailView.el);
+        $('div#main-panel.panel.panel-default').hide();
+        // Replace content of 'detail' panel with information of selected item
+        $('div#detail-panel.panel.panel-default').html(itemDetailView.el);
+        $('div#detail-panel.panel.panel-default').show();
       }
     });
   }
@@ -63,7 +92,8 @@ class ItemView extends Backbone.View<Item> {
 class ItemsView extends Backbone.View<Backbone.Model> {
   constructor(options: any = {}) {
     options.tagName = 'ul';
-    options.className = 'class-items list-unstyled';
+    options.className = 'list-group';
+    options.id = 'contact-list';
     super(options);
     let self = this;
     this.collection.fetch({
@@ -79,7 +109,9 @@ class ItemsView extends Backbone.View<Backbone.Model> {
       let itemView = new ItemView({
         model: item
       });
-      self.$el.append(itemView.el);
+      if (itemView.$el.text() !== '') {
+        self.$el.append(itemView.el);
+      }
     });
     return this;
   }

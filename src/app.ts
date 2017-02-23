@@ -27,11 +27,8 @@ class AppView extends Backbone.View<Backbone.Model> {
     let itemsView = new ItemsView({
       collection: new Items()
     });
-    this.$el.find('div.panel.panel-default').append(heroesView.el);
-    // this.$el.find('div.panel.panel-default').append(itemsView.el);
-    // this.$('#col-heroes').append(heroesView.el);
-    // this.$('#col-items').append(itemsView.el);
-    // console.log(heroesView.collection);
+    this.$el.find('div#main-panel.panel.panel-default').append(heroesView.el);
+    this.$el.find('div#main-panel.panel.panel-default').append(itemsView.el);
     return this;
   }
 }
@@ -39,7 +36,6 @@ class AppView extends Backbone.View<Backbone.Model> {
 class AppRouter extends Backbone.Router {
   routes = {
     '': 'showMainScene',
-    'hero/:name': 'showHeroScene'
   };
 
   constructor() {
