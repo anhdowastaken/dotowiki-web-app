@@ -97,11 +97,15 @@ class HeroView extends Backbone.View<Hero> {
 }
 
 class HeroesView extends Backbone.View<Backbone.Model> {
+  private eventBus: any;
+
   constructor(options: any = {}) {
     options.tagName = 'ul';
     options.className = 'list-group';
-    options.id = 'contact-list';
+    options.id = 'hero-list';
     super(options);
+    this.eventBus = options.eventBus;
+    this.eventBus.listenTo(this.eventBus, 'changeSelect', this.changeSelect.bind(this));
     let self = this;
     this.collection.fetch({
       success: function(collection, response, options) {
@@ -119,6 +123,17 @@ class HeroesView extends Backbone.View<Backbone.Model> {
       self.$el.append(heroView.el);
     });
     return this;
+  }
+
+  changeSelect(value: any) {
+    switch (value) {
+      case ('Hero'):
+        this.$el.show();
+        break;
+      default:
+        this.$el.hide();
+        break;
+    }
   }
 }
 

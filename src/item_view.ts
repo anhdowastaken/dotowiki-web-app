@@ -13,9 +13,7 @@ class ItemDetailView extends Backbone.View<Item> {
       'click button.btn-close': 'close'
     };
     super(options);
-  }
 
-  initialize() {
     this.render();
   }
 
@@ -49,6 +47,7 @@ class ItemView extends Backbone.View<Item> {
       'click': 'showItemDetail'
     };
     super(options);
+
     this.render();
   }
 
@@ -66,6 +65,7 @@ class ItemView extends Backbone.View<Item> {
       let template = _.template(templateHtml);
       this.$el.html(template(this.model.toJSON()));
     }
+
     return this;
   }
 
@@ -79,7 +79,6 @@ class ItemView extends Backbone.View<Item> {
         let itemDetailView = new ItemDetailView({
           model: model
         });
-        // self.$el.parent().parent().siblings('#col-detail').html(itemDetailView.el);
         $('div#main-panel.panel.panel-default').hide();
         // Replace content of 'detail' panel with information of selected item
         $('div#detail-panel.panel.panel-default').html(itemDetailView.el);
@@ -90,11 +89,15 @@ class ItemView extends Backbone.View<Item> {
 }
 
 class ItemsView extends Backbone.View<Backbone.Model> {
+  private eventBus: any;
+
   constructor(options: any = {}) {
     options.tagName = 'ul';
     options.className = 'list-group';
-    options.id = 'contact-list';
+    options.id = 'item-list';
     super(options);
+    this.eventBus = options.eventBus;
+    this.eventBus.listenTo(this.eventBus, 'changeSelect', this.changeSelect.bind(this));
     let self = this;
     this.collection.fetch({
       success: function(collection, response, options) {
@@ -113,7 +116,21 @@ class ItemsView extends Backbone.View<Backbone.Model> {
         self.$el.append(itemView.el);
       }
     });
+
+    this.$el.hide();
+
     return this;
+  }
+
+  changeSelect(value: any) {
+    switch (value) {
+      case ('Item'):
+        this.$el.show();
+        break;
+      default:
+        this.$el.hide();
+        break;
+    }
   }
 }
 

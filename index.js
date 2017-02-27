@@ -7,9 +7,6 @@ app.engine('html', require('ejs').renderFile);
 app.use(express.static(__dirname + '/build'));
 app.use('/build', express.static(__dirname + '/build'));
 
-app.use(express.static(__dirname + '/node_modules'));
-app.use('/node_modules', express.static(__dirname + '/node_modules'));
-
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');

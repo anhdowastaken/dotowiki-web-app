@@ -46,6 +46,9 @@
            border-bottom-width: 1px;
            height: 44px;
         }
+        .c-search > .input-group-btn .btn > span {
+          width: 19px;
+        }
         .c-list {
             padding: 0px;
             min-height: 44px;
@@ -89,53 +92,18 @@
         }
     </style>
     <script src="/build/bundle.js"></script>
-    <!-- JavaScrip Search Plugin -->
-    <script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-
-            $('[data-command="toggle-search"]').on('click', function(event) {
-                event.preventDefault();
-                // Apply searchable plugin when click search button
-                $('#contact-list').searchable({
-                    searchField: '#contact-list-search',
-                    selector: 'li',
-                    childSelector: '.col-xs-12',
-                    show: function( elem ) {
-                        elem.slideDown(100);
-                    },
-                    hide: function( elem ) {
-                        elem.slideUp( 100 );
-                    }
-                })
-                $(this).toggleClass('hide-search');
-
-                if ($(this).hasClass('hide-search')) {
-                    $('.c-search').closest('.row').slideUp(100);
-                }else{
-                    $('.c-search').closest('.row').slideDown(100);
-                }
-            })
-        });
-    </script>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-offset-3 col-sm-6">
                 <div class="panel panel-default" id="main-panel">
                     <div class="panel-heading c-list">
-                        <!-- <span class="title">Hero</span> -->
                         <div class="title btn-group">
-                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            Hero <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Hero</a></li>
-                            <li><a href="#">Item</a></li>
-                          </ul>
+                          <select class="form-control">
+                            <option>Hero</option>
+                            <option>Item</option>
+                          </select>
                         </div>
                         <ul class="pull-right c-controls">
-                            <!-- <li><a href="#cant&#45;do&#45;all&#45;the&#45;work&#45;for&#45;you" data&#45;toggle="tooltip" data&#45;placement="top" title="Add Contact"><i class="glyphicon glyphicon&#45;plus"></i></a></li> -->
                             <li><a href="#" class="hide-search" data-command="toggle-search" data-toggle="tooltip" data-placement="top" title="Toggle Search"><i class="fa fa-ellipsis-v"></i></a></li>
                         </ul>
                     </div>
