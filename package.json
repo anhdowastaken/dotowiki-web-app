@@ -1,6 +1,7 @@
 {
-  "name": "typescript-backbone-webpack",
+  "name": "dotowiki-web-app",
   "scripts": {
+    "postinstall": "npm run build",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
