@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/@types/backbone/index.d.ts" />
 import * as Backbone from 'backbone';
 
 // Ability model

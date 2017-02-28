@@ -1,5 +1,3 @@
-/// <reference path='../node_modules/@types/underscore/index.d.ts' />
-/// <reference path='../node_modules/@types/backbone/index.d.ts' />
 import * as $ from 'jquery';
 import * as _ from 'underscore';
 import * as Backbone from 'backbone';
@@ -21,13 +19,7 @@ class AbilityDetailView extends Backbone.View<Ability> {
   }
 
   render(): Backbone.View<Ability> {
-    // Prepare template
-    let templateHtml: string = '<button type="button" class="btn btn-default btn-close">Close</button>';
-    templateHtml += '<div><%= full_name %></div>';
-    templateHtml += '<div><img src="<%= portrait_url %>"/></div>';
-    templateHtml += '<div><%= description %></div>';
-    // Generate template by using underscore
-    let template = _.template(templateHtml);
+    let template = _.template($('#ability-detail-template').html());
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -53,10 +45,7 @@ class AbilityView extends Backbone.View<Ability> {
   }
 
   render(): Backbone.View<Ability> {
-    // Prepare template
-    let templateHtml: string = '<img class="img-rounded" src="<%= icon_url %>"/><span><%= full_name %></span>';
-    // Generate template by using underscore
-    let template = _.template(templateHtml);
+    let template = _.template($('#list-group-ability-template').html());
     this.$el.html(template(this.model.toJSON()));
     return this;
   }
@@ -72,7 +61,6 @@ class AbilityView extends Backbone.View<Ability> {
         let abilityDetailView = new AbilityDetailView({
           model: model
         });
-        // self.$el.parent().parent().parent().html(abilityDetailView.el);
         // Hide view of selected hero
         $('div#hero-detail').hide();
         // Add view of selected ability

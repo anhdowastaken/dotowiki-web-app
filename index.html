@@ -93,6 +93,42 @@
         }
     </style>
     <script src="/build/bundle.js"></script>
+
+    <script id="list-group-item-template" type="text/template">
+      <div class="col-xs-12 col-sm-3">
+        <img src="<%= icon_url %>" alt="<%= localized_name %>" class="img-responsive img-rounded" />
+      </div>
+      <div class="col-xs-12 col-sm-9">
+        <span class="name"><%= localized_name %></span>
+      </div>
+      <div class="clearfix"></div>
+    </script>
+
+    <script id="list-group-ability-template" type="text/template">
+      <img class="img-rounded" src="<%= icon_url %>"/><span><%= full_name %></span>
+    </script>
+
+    <script id="hero-detail-template" type="text/template">
+      <button type="button" class="btn btn-default btn-close">Close</button>
+      <div><%= localized_name %></div>
+      <div><img src="<%= portrait_url %>"/></div>
+      <div class="hero-abilities"></div>
+    </script>
+
+    <script id="item-detail-template" type="text/template">
+      <button type="button" class="btn btn-default btn-close">Close</button>
+      <div><%= localized_name %></div>
+      <div><img src="<%= portrait_url %>"/></div>
+      <div>Cost: <%= cost %> gold</div>
+    </script>
+
+    <script id="ability-detail-template" type="text/template">
+      <button type="button" class="btn btn-default btn-close">Close</button>
+      <div><%= full_name %></div>
+      <div><img src="<%= portrait_url %>"/></div>
+      <div><%= description %></div>
+    </script>
+
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-offset-3 col-sm-6">
